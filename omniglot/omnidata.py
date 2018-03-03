@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*- 
 import gzip
 import numpy as np
 import os
@@ -6,7 +7,8 @@ import torch
 
 from skimage.transform import rotate
 from torch.utils import data
-
+import sys 
+print(sys.stdout.encoding)
 
 def load_mnist(data_dir):
 
@@ -69,7 +71,7 @@ class OmniglotSetsDataset(data.Dataset):
         self.sample_size = sample_size
         path = os.path.join(data_dir, 'train_val_test_split.pkl')
         with open(path, 'rb') as file:
-            splits = pickle.load(file)
+            splits = pickle.load(file, encoding='latin1')
         if split == 'train':
             images, labels = splits[:2]
             sets, set_labels = self.make_sets(images, labels)

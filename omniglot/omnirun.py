@@ -9,7 +9,7 @@ from torch import optim
 from torch.autograd import Variable
 from torch.nn import functional as F
 from torch.utils import data
-from tqdm import tqdm
+#from tqdm import tqdm
 
 # command line args
 parser = argparse.ArgumentParser(description='Neural Statistician Synthetic Experiment')
@@ -49,7 +49,7 @@ parser.add_argument('--print-vars', type=bool, default=False,
                          '(default: False)')
 parser.add_argument('--learning-rate', type=float, default=1e-3,
                     help='learning rate for Adam optimizer (default: 1e-3).')
-parser.add_argument('--epochs', type=int, default=300,
+parser.add_argument('--epochs', type=int, default=200,
                     help='number of epochs for training (default: 50)')
 parser.add_argument('--viz-interval', type=int, default=-1,
                     help='number of epochs between visualizing context space '
@@ -62,8 +62,8 @@ parser.add_argument('--clip-gradients', type=bool, default=True,
                          '(default: True)')
 args = parser.parse_args()
 assert args.output_dir is not None
-os.makedirs(os.path.join(args.output_dir, 'checkpoints'), exist_ok=True)
-os.makedirs(os.path.join(args.output_dir, 'figures'), exist_ok=True)
+#os.makedirs(os.path.join(args.output_dir, 'checkpoints'), exist_ok=True)
+#os.makedirs(os.path.join(args.output_dir, 'figures'), exist_ok=True)
 
 # experiment start time
 time_stamp = time.strftime("%d-%m-%Y-%H:%M:%S")
@@ -81,9 +81,9 @@ def run(model, optimizer, loaders, datasets):
     # initial weighting for two term loss
     alpha = 1
     # main training loop
-    tbar = tqdm(range(args.epochs))
+    tbar = range(args.epochs)
     for epoch in tbar:
-
+        print(epoch)
         # train step (iterate once over training data)
         model.train()
         running_vlb = 0
@@ -95,7 +95,7 @@ def run(model, optimizer, loaders, datasets):
         # update running lower bound
         running_vlb /= (len(train_dataset) // args.batch_size)
         s = "VLB: {:.3f}".format(running_vlb)
-        tbar.set_description(s)
+       # tbar.set_description(s)
 
         # reduce weight
         alpha *= 0.5
